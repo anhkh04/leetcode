@@ -1,26 +1,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int lengthOfLastWord(char* s) {
+int* plusOne(int* digits, int digitsSize, int* returnSize) {
 
-    int size = strlen(s);
-
-    int cnt = 0;
-    for (int i = size - 1; i >= 0; i--)
+    for (int i = digitsSize - 1; i >= 0; i--)
     {
-        if (s[i] == ' ')
+        if (digits[i] == 9)
         {
-            if (cnt > 0)
-            {
-                return cnt;
-            }
+            digits[i] = 0;
         }
         else
         {
-            cnt++;
+            digits[i] += 1;
+            *returnSize = digitsSize;
+            return digits;
         }
     }
-    return cnt;
+
+    int newSize = digitsSize + 1;
+    *returnSize = newSize;
+
+    int* arr = (int*)malloc(newSize * sizeof(int));
+    arr[0] = 1;
+
+    for (int i = 1; i < newSize; i++)
+    {
+        arr[i] = digits[i - 1];
+    }
+    return arr;
 }
 
 int main()
