@@ -1,31 +1,49 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char* longestCommonPrefix(char** strs, int strsSize) {
+typedef enum {
+    false,
+    true
+} bool;
 
-    for (int j = 0; ; j++)
+bool isValid(char* s) {
+
+    char stack[10000];
+    char* top = stack;
+    int i = 0, j = 1;
+
+    while (s[i] != 0)
     {
-        for (int i = 0; i < strsSize - 1; i++)
+        if (s[i] == '(' || s[i] == '[' || s[i] == '{')
         {
-            if (strs[i][j] != strs[i + 1][j])
+            stack[j] = s[i];
+            top = &stack[j];
+            j++;
+        }
+        else
+        {
+            if ((stack[1] == 0) ||
+                (s[i] == ')' && (*top) != '(') ||
+                (s[i] == ']' && (*top) != '[') ||
+                (s[i] == '}' && (*top) != '{'))
             {
-                strs[0][j] = 0;
-                break;
+                return false;
             }
+            *top = 0;
+            top -= 1;
+            j--;
         }
-
-        if (strs[0][j] == 0)
-        {
-            return strs[0];
-        }
+        i++;
     }
-}
+    if (*top != 0)
+    {
+        return false;
+    }
 
+    return true;
+}
 int main()
 {
-    char* s[] = { "flower", "flow", "flight" };
-
-
-    char* res = longestCommonPrefix(s, 5);
+    printf("%d", isValid("()"));
     return 0;
 }
