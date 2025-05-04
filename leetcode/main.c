@@ -1,29 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int strStr(char* haystack, char* needle) {
-    int i = 0, index = 0;
+int searchInsert(int* nums, int numsSize, int target) {
 
-    while (haystack[i] != 0)
+    for (int i = 0; i < numsSize; i++)
     {
-        int check = 1;
-        index = i;
-        for (int j = 0, k = i; needle[j] != 0; j++, k++)
+        if (nums[i] >= target)
         {
-            if (needle[j] != haystack[k])
-            {
-                check = 0;
-                break;
-            }
+            return i;
         }
-        if (check == 1)
+        else if (nums[i] < target && i == numsSize - 1)
         {
-            return index;
+            return i + 1;
         }
-        i++;
     }
-
-    return -1;
+    return 0;
 }
 
 int main()
