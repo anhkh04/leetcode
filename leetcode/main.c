@@ -1,25 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int removeDuplicates(int* nums, int numsSize) {
+int removeElement(int* nums, int numsSize, int val) {
 
-    int i = 0;
-    for (int j = 1; j < numsSize; j++)
+    int mark[102] = { 0 };
+    int index = 0;
+    for (int i = 0; i < numsSize; i++)
     {
-        if (nums[i] != nums[j])
+        if (nums[i] != val)
         {
-            i++;
-            nums[i] = nums[j];
+            mark[index] = nums[i];
+            index++;
         }
     }
 
-    return i + 1;
+    for (int i = 0; i < index; i++)
+    {
+        nums[i] = mark[i];
+    }
+
+    return index;
 }
 
 int main()
 {
     int arr[] = { 0, 0, 1, 1, 1, 2, 3, 3, 4 };
-    int k = removeDuplicates(arr, 9);
+    int k = removeElement(arr, 9, 1);
 
     for (int i = 0; i < k; i++)
     {
