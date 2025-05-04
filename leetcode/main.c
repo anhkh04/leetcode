@@ -1,48 +1,78 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef enum
-{
-    false, 
-    true
-} bool;
+int romanToInt(char* s) {
+    int res = 0;
 
-bool isPalindrome(int x) 
-{
-    if (x < 0)
+    int i = 0;
+    while (s[i] != 0)
     {
-        return false;
-    }
-    int* arr = (int*)malloc(10 * sizeof(int));
-
-    int index = 0;
-    while (x > 0)
-    {
-        int tmp = x % 10;
-        arr[index] = tmp;
-        x /= 10;
-        index++;
-    }
-
-    if (index == 0)
-    {
-        return true;
-    }
-
-    for (int i = 0, j = index - 1; i < index / 2; i++, j--)
-    {
-        if (arr[i] != arr[j])
+        switch (s[i])
         {
-            return false;
+        case 'I':
+            res += 1;
+            break;
+        case 'V':
+            if (i > 0 && s[i - 1] == 'I')
+            {
+                res += 3;
+                break;
+            }
+            res += 5;
+            break;
+        case 'X':
+            if (i > 0 && s[i - 1] == 'I')
+            {
+                res += 8;
+                break;
+            }
+            res += 10;
+            break;
+        case 'L':
+            if (i > 0 && s[i - 1] == 'X')
+            {
+                res += 30;
+                break;
+            }
+            res += 50;
+            break;
+        case 'C':
+            if (i > 0 && s[i - 1] == 'X')
+            {
+                res += 80;
+                break;
+            }
+            res += 100;
+            break;
+        case 'D':
+            if (i > 0 && s[i - 1] == 'C')
+            {
+                res += 300;
+                break;
+            }
+            res += 500;
+            break;
+        case 'M':
+            if (i > 0 && s[i - 1] == 'C')
+            {
+                res += 800;
+                break;
+            }
+            res += 1000;
+            break;
+        default:
+            break;
         }
+        i++;
     }
 
-    return true;
+    return res;
 }
+
 
 int main()
 {
-    printf("%d", isPalindrome(121));
+    printf("%d", romanToInt("LVIII"));
 
     return 0;
 }
