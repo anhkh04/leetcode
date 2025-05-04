@@ -1,37 +1,48 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int* twoSum(int* nums, int numsSize, int target, int* returnSize)
+typedef enum
 {
-    int* res = (int*)malloc(2 * sizeof(int));
+    false, 
+    true
+} bool;
 
-    *returnSize = 2;
-    for (int i = 0; i < numsSize - 1; i++)
+bool isPalindrome(int x) 
+{
+    if (x < 0)
     {
-        for (int j = i + 1; j < numsSize; j++)
-        {
-            if (nums[i] + nums[j] == target)
-            {
-                res[0] = i;
-                res[1] = j;
+        return false;
+    }
+    int* arr = (int*)malloc(10 * sizeof(int));
 
-                return res;
-            }
+    int index = 0;
+    while (x > 0)
+    {
+        int tmp = x % 10;
+        arr[index] = tmp;
+        x /= 10;
+        index++;
+    }
+
+    if (index == 0)
+    {
+        return true;
+    }
+
+    for (int i = 0, j = index - 1; i < index / 2; i++, j--)
+    {
+        if (arr[i] != arr[j])
+        {
+            return false;
         }
     }
 
-    return 0;
+    return true;
 }
 
 int main()
 {
-    int nums[] = { 2, 7, 11, 15 };
-    int newsize; 
-    int* res = twoSum(nums, 4, 9, &newsize);
+    printf("%d", isPalindrome(121));
 
-    for (int i = 0; i < newsize; i++)
-    {
-        printf("%d ", res[i]);
-    }
     return 0;
 }
