@@ -1,49 +1,66 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef enum {
-    false,
-    true
-} bool;
+struct ListNode {
+    int val;
+    struct ListNode* next;
+ 
+};
 
-bool isValid(char* s) {
+struct ListNode* mergeTwoLists(struct ListNode* list1, struct ListNode* list2) {
 
-    char stack[10000];
-    char* top = stack;
-    int i = 0, j = 1;
-
-    while (s[i] != 0)
+    if (list1 == NULL && list2 == NULL)
     {
-        if (s[i] == '(' || s[i] == '[' || s[i] == '{')
+        return NULL;
+    }
+    else if (list1 == NULL && list2 != NULL)
+    {
+        return list2;
+    }
+    else if (list1 != NULL && list2 == NULL)
+    {
+        return list1;
+    }
+
+    struct ListNode* curNode, * nextNode, * tmpNode, * head;
+
+    if (list1->val <= list2->val)
+    {
+        curNode = list1;
+        nextNode = list2;
+    }
+    else
+    {
+        curNode = list2;
+        nextNode = list1;
+    }
+    head = curNode;
+    while (1)
+    {
+        if (curNode->next == 0)
         {
-            stack[j] = s[i];
-            top = &stack[j];
-            j++;
+            curNode->next = nextNode;
+            curNode = nextNode;
+            nextNode = nextNode->next;
+            break;
+        }
+        else if (curNode->next->val > nextNode->val)
+        {
+            tmpNode = curNode->next;
+            curNode->next = nextNode;
+            curNode = nextNode;
+            nextNode = tmpNode;
         }
         else
         {
-            if ((stack[1] == 0) ||
-                (s[i] == ')' && (*top) != '(') ||
-                (s[i] == ']' && (*top) != '[') ||
-                (s[i] == '}' && (*top) != '{'))
-            {
-                return false;
-            }
-            *top = 0;
-            top -= 1;
-            j--;
+            curNode = curNode->next;
         }
-        i++;
-    }
-    if (*top != 0)
-    {
-        return false;
     }
 
-    return true;
+    return head;
 }
 int main()
 {
-    printf("%d", isValid("()"));
+
     return 0;
 }
