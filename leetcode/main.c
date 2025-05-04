@@ -1,66 +1,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct ListNode {
-    int val;
-    struct ListNode* next;
- 
-};
+int removeDuplicates(int* nums, int numsSize) {
 
-struct ListNode* mergeTwoLists(struct ListNode* list1, struct ListNode* list2) {
-
-    if (list1 == NULL && list2 == NULL)
+    int i = 0;
+    for (int j = 1; j < numsSize; j++)
     {
-        return NULL;
-    }
-    else if (list1 == NULL && list2 != NULL)
-    {
-        return list2;
-    }
-    else if (list1 != NULL && list2 == NULL)
-    {
-        return list1;
-    }
-
-    struct ListNode* curNode, * nextNode, * tmpNode, * head;
-
-    if (list1->val <= list2->val)
-    {
-        curNode = list1;
-        nextNode = list2;
-    }
-    else
-    {
-        curNode = list2;
-        nextNode = list1;
-    }
-    head = curNode;
-    while (1)
-    {
-        if (curNode->next == 0)
+        if (nums[i] != nums[j])
         {
-            curNode->next = nextNode;
-            curNode = nextNode;
-            nextNode = nextNode->next;
-            break;
-        }
-        else if (curNode->next->val > nextNode->val)
-        {
-            tmpNode = curNode->next;
-            curNode->next = nextNode;
-            curNode = nextNode;
-            nextNode = tmpNode;
-        }
-        else
-        {
-            curNode = curNode->next;
+            i++;
+            nums[i] = nums[j];
         }
     }
 
-    return head;
+    return i + 1;
 }
+
 int main()
 {
+    int arr[] = { 0, 0, 1, 1, 1, 2, 3, 3, 4 };
+    int k = removeDuplicates(arr, 9);
 
+    for (int i = 0; i < k; i++)
+    {
+        printf("%d ", arr[i]);
+    }
     return 0;
 }
