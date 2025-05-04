@@ -1,33 +1,49 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int* plusOne(int* digits, int digitsSize, int* returnSize) {
+char* addBinary(char* a, char* b) {
+    int i = strlen(a);
+    int j = strlen(b);
+    int max = fmax(i, j) + 2;
 
-    for (int i = digitsSize - 1; i >= 0; i--)
+    char* res = (char*)malloc(max * sizeof(char));
+
+    char carry = '0';
+    i--, j--;
+    res[--max] = 0;
+
+    while (max-- > 0)
     {
-        if (digits[i] == 9)
+        int digit = 0;
+        if (i >= 0)
         {
-            digits[i] = 0;
+            digit += (a[i] - '0');
+            i--;
+        }
+        if (j >= 0)
+        {
+            digit += b[j] - '0';
+            j--;
+        }
+
+        digit += carry - '0';
+        if (digit % 2 != 0)
+        {
+            res[max] = '1';
+            carry = (digit == 1) ? '0' : '1';
         }
         else
         {
-            digits[i] += 1;
-            *returnSize = digitsSize;
-            return digits;
+            res[max] = '0';
+            carry = (digit == 0) ? '0' : '1';
         }
     }
 
-    int newSize = digitsSize + 1;
-    *returnSize = newSize;
-
-    int* arr = (int*)malloc(newSize * sizeof(int));
-    arr[0] = 1;
-
-    for (int i = 1; i < newSize; i++)
+    if (res[0] == '0')
     {
-        arr[i] = digits[i - 1];
+        return res + 1;
     }
-    return arr;
+    return res;
 }
 
 int main()
