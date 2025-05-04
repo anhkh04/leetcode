@@ -1,35 +1,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int removeElement(int* nums, int numsSize, int val) {
+int strStr(char* haystack, char* needle) {
+    int i = 0, index = 0;
 
-    int mark[102] = { 0 };
-    int index = 0;
-    for (int i = 0; i < numsSize; i++)
+    while (haystack[i] != 0)
     {
-        if (nums[i] != val)
+        int check = 1;
+        index = i;
+        for (int j = 0, k = i; needle[j] != 0; j++, k++)
         {
-            mark[index] = nums[i];
-            index++;
+            if (needle[j] != haystack[k])
+            {
+                check = 0;
+                break;
+            }
         }
+        if (check == 1)
+        {
+            return index;
+        }
+        i++;
     }
 
-    for (int i = 0; i < index; i++)
-    {
-        nums[i] = mark[i];
-    }
-
-    return index;
+    return -1;
 }
 
 int main()
 {
-    int arr[] = { 0, 0, 1, 1, 1, 2, 3, 3, 4 };
-    int k = removeElement(arr, 9, 1);
 
-    for (int i = 0; i < k; i++)
-    {
-        printf("%d ", arr[i]);
-    }
     return 0;
 }
