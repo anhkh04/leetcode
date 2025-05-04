@@ -1,20 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int searchInsert(int* nums, int numsSize, int target) {
+int lengthOfLastWord(char* s) {
 
-    for (int i = 0; i < numsSize; i++)
+    int size = strlen(s);
+
+    int cnt = 0;
+    for (int i = size - 1; i >= 0; i--)
     {
-        if (nums[i] >= target)
+        if (s[i] == ' ')
         {
-            return i;
+            if (cnt > 0)
+            {
+                return cnt;
+            }
         }
-        else if (nums[i] < target && i == numsSize - 1)
+        else
         {
-            return i + 1;
+            cnt++;
         }
     }
-    return 0;
+    return cnt;
 }
 
 int main()
