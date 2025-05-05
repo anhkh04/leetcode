@@ -3,32 +3,48 @@
 #include <string.h>
 #include <math.h>
 
-int singleNumber(int* nums, int numsSize)
+typedef enum {
+    false, 
+    true
+} bool;
+
+ struct ListNode {
+    int val;
+    struct ListNode *next;
+ };
+ 
+bool hasCycle(struct ListNode* head)
 {
-    if (numsSize == 1)
+    if (head == NULL)
     {
-        return nums[0];
+        return 0;
     }
 
-    for (int i = 0; i < numsSize; i++)
+    struct ListNode* a[10001] = { 0 };
+    struct ListNode* curN = head;
+    int index = 0;
+
+    a[index] = curN;
+    while (curN->next != NULL)
     {
-        int cnt = 1;
-        for (int j = 0; j < numsSize; j++)
+        for (int i = 0; i < 10001; i++)
         {
-            if (nums[i] == nums[j] && i != j)
+            if (curN->next == a[i])
             {
-                cnt++;
+                return 1;
+            }
+            else if (curN->next == NULL)
+            {
                 break;
             }
         }
-        if (cnt == 1)
-        {
-            return nums[i];
-        }
+        curN = curN->next;
+        a[++index] = curN;
     }
 
     return 0;
 }
+
 int main()
 {
 
