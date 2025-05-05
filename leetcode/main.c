@@ -1,53 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <math.h>
 
-char* addBinary(char* a, char* b) {
-    int i = strlen(a);
-    int j = strlen(b);
-    int max = fmax(i, j) + 2;
+int mySqrt(int x) {
 
-    char* res = (char*)malloc(max * sizeof(char));
+	double test = 1000;
 
-    char carry = '0';
-    i--, j--;
-    res[--max] = 0;
+	for (int i = 0; i < 10; i++)
+	{
+		test = (test + (x / test)) / 2;
+	}
 
-    while (max-- > 0)
-    {
-        int digit = 0;
-        if (i >= 0)
-        {
-            digit += (a[i] - '0');
-            i--;
-        }
-        if (j >= 0)
-        {
-            digit += b[j] - '0';
-            j--;
-        }
-
-        digit += carry - '0';
-        if (digit % 2 != 0)
-        {
-            res[max] = '1';
-            carry = (digit == 1) ? '0' : '1';
-        }
-        else
-        {
-            res[max] = '0';
-            carry = (digit == 0) ? '0' : '1';
-        }
-    }
-
-    if (res[0] == '0')
-    {
-        return res + 1;
-    }
-    return res;
+	return (int)test;
 }
 
 int main()
 {
+	printf("%d", mySqrt(45));
 
     return 0;
 }
