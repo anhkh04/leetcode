@@ -3,21 +3,50 @@
 #include <string.h>
 #include <math.h>
 
-int mySqrt(int x) {
+ struct ListNode {
+    int val;
+    struct ListNode *next;
+ };
 
-	double test = 1000;
+struct ListNode* deleteDuplicates(struct ListNode* head) {
 
-	for (int i = 0; i < 10; i++)
-	{
-		test = (test + (x / test)) / 2;
-	}
+    if (head == NULL || head->next == NULL)
+    {
+        return head;
+    }
 
-	return (int)test;
+    while (head->val == head->next->val)
+    {
+        head = head->next;
+        if (head->next == NULL)
+        {
+            return head;
+        }
+    }
+
+    struct ListNode* curN = head->next;
+    struct ListNode* nextN = curN->next;
+
+    while (nextN != NULL)
+    {
+        if (curN->val != nextN->val)
+        {
+            curN->next = nextN;
+            curN = nextN;
+            nextN = curN->next;
+        }
+        else
+        {
+            nextN = nextN->next;
+        }
+    }
+    curN->next = nextN;
+
+    return head;
 }
 
 int main()
 {
-	printf("%d", mySqrt(45));
 
     return 0;
 }
