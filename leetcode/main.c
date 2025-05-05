@@ -13,37 +13,56 @@ typedef enum {
     struct ListNode *next;
  };
  
-bool hasCycle(struct ListNode* head)
-{
-    if (head == NULL)
-    {
-        return 0;
-    }
+ struct ListNode* getIntersectionNode(struct ListNode* headA, struct ListNode* headB) {
+     if (headA == NULL || headB == NULL)
+     {
+         return NULL;
+     }
 
-    struct ListNode* a[10001] = { 0 };
-    struct ListNode* curN = head;
-    int index = 0;
+     struct ListNode* curA = headA;
+     struct ListNode* curB = headB;
+     struct ListNode* a[20001] = { 0 };
 
-    a[index] = curN;
-    while (curN->next != NULL)
-    {
-        for (int i = 0; i < 10001; i++)
-        {
-            if (curN->next == a[i])
-            {
-                return 1;
-            }
-            else if (curN->next == NULL)
-            {
-                break;
-            }
-        }
-        curN = curN->next;
-        a[++index] = curN;
-    }
+     a[0] = curA;
+     a[1] = curB;
+     if (a[0] == a[1])
+     {
+         return a[0];
+     }
+     int index = 1;
 
-    return 0;
-}
+     while (curA->next != NULL || curB->next != NULL)
+     {
+         if (curA->next != NULL)
+         {
+             for (int i = 0; i < 20001; i++)
+             {
+                 if (curA->next == a[i])
+                 {
+                     return curA->next;
+                 }
+             }
+             curA = curA->next;
+             a[++index] = curA;
+         }
+
+         if (curB->next != NULL)
+         {
+             for (int i = 0; i < 20001; i++)
+             {
+                 if (curB->next == a[i])
+                 {
+                     return curB->next;
+                 }
+             }
+             curB = curB->next;
+             a[++index] = curB;
+         }
+
+     }
+
+     return NULL;
+ }
 
 int main()
 {
