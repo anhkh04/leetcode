@@ -3,34 +3,35 @@
 #include <string.h>
 #include <math.h>
 
-int** generate(int numRows, int* returnSize, int** returnColumnSizes)
+int* getRow(int rowIndex, int* returnSize) 
 {
-	int** arr = malloc(sizeof(int*) * numRows);
-	*returnColumnSizes = malloc(sizeof(int) * numRows);
+    int arrSize = rowIndex + 1; 
+    int** arr = malloc(sizeof(int*) * arrSize);
 
-	for (int i = 0; i < numRows; i++)
-	{
-		(*returnColumnSizes)[i] = i + 1;
-		arr[i] = malloc(sizeof(int) * (i + 1));
-		for (int j = 0; j <= i; j++)
-		{
-			if (j == 0 || j == i)
-			{
-				arr[i][j] = 1;
-			}
-			else
-			{
-				arr[i][j] = arr[i - 1][j - 1] + arr[i - 1][j];
-			}
-		}
-	}
+    for (int i = 0; i < arrSize; i++)
+    {
+        arr[i] = malloc(sizeof(int) * (i + 1)); 
+        arr[i][0] = 1; 
+        arr[i][i] = 1; 
 
-	*returnSize = numRows;
-	return arr;
+        for (int j = 1; j < i; j++)
+        {
+            arr[i][j] = arr[i - 1][j - 1] + arr[i - 1][j]; 
+        }
+    }
+
+    *returnSize = arrSize; 
+    return arr[rowIndex];
 }
 
 int main()
 {
+    int size; 
+    int* a = getRow(3, &size); 
 
+    for (int i = 0; i < size; i++)
+    {
+        printf("%d ", a[i]); 
+    }
     return 0;
 }
