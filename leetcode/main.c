@@ -3,23 +3,45 @@
 #include <string.h>
 #include <math.h>
 
-int maxProfit(int* prices, int pricesSize) {
-    int max = 0, min = 10000;
-    for (int i = 0; i < pricesSize; i++)
+typedef enum {
+    false, 
+    true
+} bool;
+
+bool isPalindrome(char* s) {
+
+    int size = strlen(s);
+    char newS[200000] = { 0 };
+    int newSize = 0;
+
+    for (int i = 0; i < size; i++)
     {
-        if (prices[i] < min)
+        if (s[i] >= 'A' && s[i] <= 'Z')
         {
-            min = prices[i];
-            for (int j = i + 1; j < pricesSize; j++)
-            {
-                if (prices[j] - min > max)
-                {
-                    max = prices[j] - min;
-                }
-            }
+            s[i] += 32;
+            newS[newSize] = s[i];
+            newSize++;
+        }
+        else if ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= '0' && s[i] <= '9'))
+        {
+            newS[newSize] = s[i];
+            newSize++;
         }
     }
-    return max;
+
+    if (newSize == 0)
+    {
+        return true;
+    }
+
+    for (int i = 0, j = newSize - 1; i < newSize / 2; i++, j--)
+    {
+        if (newS[i] != newS[j])
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 int main()
