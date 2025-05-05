@@ -3,47 +3,32 @@
 #include <string.h>
 #include <math.h>
 
-typedef enum {
-    false, 
-    true
-} bool;
-
-bool isPalindrome(char* s) {
-
-    int size = strlen(s);
-    char newS[200000] = { 0 };
-    int newSize = 0;
-
-    for (int i = 0; i < size; i++)
+int singleNumber(int* nums, int numsSize)
+{
+    if (numsSize == 1)
     {
-        if (s[i] >= 'A' && s[i] <= 'Z')
+        return nums[0];
+    }
+
+    for (int i = 0; i < numsSize; i++)
+    {
+        int cnt = 1;
+        for (int j = 0; j < numsSize; j++)
         {
-            s[i] += 32;
-            newS[newSize] = s[i];
-            newSize++;
+            if (nums[i] == nums[j] && i != j)
+            {
+                cnt++;
+                break;
+            }
         }
-        else if ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= '0' && s[i] <= '9'))
+        if (cnt == 1)
         {
-            newS[newSize] = s[i];
-            newSize++;
+            return nums[i];
         }
     }
 
-    if (newSize == 0)
-    {
-        return true;
-    }
-
-    for (int i = 0, j = newSize - 1; i < newSize / 2; i++, j--)
-    {
-        if (newS[i] != newS[j])
-        {
-            return false;
-        }
-    }
-    return true;
+    return 0;
 }
-
 int main()
 {
 
