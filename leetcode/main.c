@@ -3,46 +3,45 @@
 #include <string.h>
 #include <math.h>
 
- struct ListNode {
-    int val;
-    struct ListNode *next;
- };
+void merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n) {
 
-struct ListNode* deleteDuplicates(struct ListNode* head) {
+    int last;
+    if (m > 0) last = nums1[m - 1];
 
-    if (head == NULL || head->next == NULL)
+    for (int i = 0, j = 0; j != n;)
     {
-        return head;
-    }
-
-    while (head->val == head->next->val)
-    {
-        head = head->next;
-        if (head->next == NULL)
+        if (nums1[i] <= nums2[j])
         {
-            return head;
+            if (m == 0)
+            {
+                for (int k = 0; k < n; k++)
+                {
+                    nums1[k] = nums2[k];
+                }
+                return;
+            }
+            else if (nums1[i] == last)
+            {
+                for (int k = m + j; k < nums1Size; k++, j++)
+                {
+                    nums1[k] = nums2[j];
+                }
+                return;
+            }
+
+            i++;
+        }
+        else if (nums1[i] > nums2[j])
+        {
+            for (int k = m + j; k > i; k--)
+            {
+                nums1[k] = nums1[k - 1];
+            }
+            nums1[i] = nums2[j];
+            j++;
         }
     }
-
-    struct ListNode* curN = head->next;
-    struct ListNode* nextN = curN->next;
-
-    while (nextN != NULL)
-    {
-        if (curN->val != nextN->val)
-        {
-            curN->next = nextN;
-            curN = nextN;
-            nextN = curN->next;
-        }
-        else
-        {
-            nextN = nextN->next;
-        }
-    }
-    curN->next = nextN;
-
-    return head;
+    return;
 }
 
 int main()
