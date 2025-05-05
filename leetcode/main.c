@@ -3,35 +3,27 @@
 #include <string.h>
 #include <math.h>
 
-int* getRow(int rowIndex, int* returnSize) 
-{
-    int arrSize = rowIndex + 1; 
-    int** arr = malloc(sizeof(int*) * arrSize);
-
-    for (int i = 0; i < arrSize; i++)
+int maxProfit(int* prices, int pricesSize) {
+    int max = 0, min = 10000;
+    for (int i = 0; i < pricesSize; i++)
     {
-        arr[i] = malloc(sizeof(int) * (i + 1)); 
-        arr[i][0] = 1; 
-        arr[i][i] = 1; 
-
-        for (int j = 1; j < i; j++)
+        if (prices[i] < min)
         {
-            arr[i][j] = arr[i - 1][j - 1] + arr[i - 1][j]; 
+            min = prices[i];
+            for (int j = i + 1; j < pricesSize; j++)
+            {
+                if (prices[j] - min > max)
+                {
+                    max = prices[j] - min;
+                }
+            }
         }
     }
-
-    *returnSize = arrSize; 
-    return arr[rowIndex];
+    return max;
 }
 
 int main()
 {
-    int size; 
-    int* a = getRow(3, &size); 
 
-    for (int i = 0; i < size; i++)
-    {
-        printf("%d ", a[i]); 
-    }
     return 0;
 }
