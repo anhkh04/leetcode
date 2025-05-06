@@ -2,70 +2,33 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <stdint.h>
 
-typedef enum {
-    false, 
-    true
-} bool;
+char* convertToTitle(int columnNumber) {
+    char ch[] = { 0 , 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+                 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
+                 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+    int num = columnNumber;
+    char* str = (char*)calloc(sizeof(char), 10);
+    int i = 9;
 
- struct ListNode {
-    int val;
-    struct ListNode *next;
- };
- 
- struct ListNode* getIntersectionNode(struct ListNode* headA, struct ListNode* headB) {
-     if (headA == NULL || headB == NULL)
-     {
-         return NULL;
-     }
+    while (num > 0)
+    {
+        int mod = num % 26;
+        num /= 26;
+        if (mod == 0)
+        {
+            mod = 26;
+            num -= 1;
+        }
+        str[--i] = ch[mod];
+    }
+    str += i;
 
-     struct ListNode* curA = headA;
-     struct ListNode* curB = headB;
-     struct ListNode* a[20001] = { 0 };
-
-     a[0] = curA;
-     a[1] = curB;
-     if (a[0] == a[1])
-     {
-         return a[0];
-     }
-     int index = 1;
-
-     while (curA->next != NULL || curB->next != NULL)
-     {
-         if (curA->next != NULL)
-         {
-             for (int i = 0; i < 20001; i++)
-             {
-                 if (curA->next == a[i])
-                 {
-                     return curA->next;
-                 }
-             }
-             curA = curA->next;
-             a[++index] = curA;
-         }
-
-         if (curB->next != NULL)
-         {
-             for (int i = 0; i < 20001; i++)
-             {
-                 if (curB->next == a[i])
-                 {
-                     return curB->next;
-                 }
-             }
-             curB = curB->next;
-             a[++index] = curB;
-         }
-
-     }
-
-     return NULL;
- }
-
+    return str;
+}
 int main()
 {
 
-    return 0;
+	return 0;
 }
