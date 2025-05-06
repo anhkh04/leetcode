@@ -4,29 +4,50 @@
 #include <math.h>
 #include <stdint.h>
 
-char* convertToTitle(int columnNumber) {
-    char ch[] = { 0 , 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
-                 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
-                 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
-    int num = columnNumber;
-    char* str = (char*)calloc(sizeof(char), 10);
-    int i = 9;
+int majorityElement(int* nums, int numsSize) {
 
-    while (num > 0)
+    int arr[10000][2] = { 0 };
+
+    int row = 0;
+    for (int i = 0; i < numsSize; i++)
     {
-        int mod = num % 26;
-        num /= 26;
-        if (mod == 0)
-        {
-            mod = 26;
-            num -= 1;
-        }
-        str[--i] = ch[mod];
-    }
-    str += i;
+        int check = 1;
+        int index;
 
-    return str;
+        for (int j = 0; j < row; j++)
+        {
+            if (nums[i] == arr[j][0])
+            {
+                check = 0;
+                index = j;
+                break;
+            }
+        }
+        if (check == 0)
+        {
+            arr[index][1]++;
+        }
+        else
+        {
+            arr[row][0] = nums[i];
+            arr[row++][1]++;
+        }
+    }
+
+    int index = 0;
+    int max = arr[index][1];
+    for (int i = 0; i < row; i++)
+    {
+        if (arr[i][1] > max)
+        {
+            max = arr[i][1];
+            index = i;
+        }
+    }
+
+    return arr[index][0];
 }
+
 int main()
 {
 
