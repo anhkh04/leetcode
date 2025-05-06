@@ -4,15 +4,32 @@
 #include <math.h>
 #include <stdint.h>
 
-int hammingWeight(int n) {
-	int cnt = 0;
-	while (n > 0)
+typedef enum
+{
+	false, 
+	true
+} bool;
+
+bool isHappy(int n)
+{
+	int res = 0;
+
+	while (res != 1)
 	{
-		if ((n & 1) == 1) cnt++;
-		n >>= 1;
+		res = 0;
+		while (n > 0)
+		{
+			res += pow(n % 10, 2);
+			n /= 10;
+		}
+		n = res;
+		if (res < 10 && res != 1 && res != 7)
+		{
+			return false;
+		}
 	}
 
-	return cnt;
+	return true;
 }
 
 int main()
