@@ -4,36 +4,48 @@
 #include <math.h>
 #include <stdint.h>
 
-typedef enum
-{
-	false, 
-	true
-} bool;
+struct ListNode {
+    int val;
+    struct ListNode *next;
+};
 
-bool isHappy(int n)
+struct ListNode* removeElements(struct ListNode* head, int val)
 {
-	int res = 0;
-
-	while (res != 1)
+	if (head == NULL)
 	{
-		res = 0;
-		while (n > 0)
-		{
-			res += pow(n % 10, 2);
-			n /= 10;
-		}
-		n = res;
-		if (res < 10 && res != 1 && res != 7)
-		{
-			return false;
-		}
+		return NULL;
 	}
 
-	return true;
+	while (head->val == val)
+	{
+		head = head->next;
+		if (head == NULL)
+		{
+			return NULL;
+		}
+	}
+	struct ListNode* curN = head;
+	struct ListNode* nextN = head->next;
+
+	while (nextN != NULL)
+	{
+		if (nextN->val != val)
+		{
+			curN->next = nextN;
+			curN = nextN;
+			nextN = curN->next;
+		}
+		else
+		{
+			nextN = nextN->next;
+		}
+	}
+	curN->next = NULL;
+	return head;
 }
 
 int main()
 {
 
-	return 0;
+	return 0; 
 }
