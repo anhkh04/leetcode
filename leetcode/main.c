@@ -4,50 +4,39 @@
 #include <math.h>
 #include <stdint.h>
 
-typedef enum
-{
-	false, 
-	true
-} bool;
+struct ListNode {
+    int val;
+    struct ListNode *next;
+};
 
-bool isIsomorphic(char* s, char* t)
+struct ListNode* reverseList(struct ListNode* head)
 {
-	int sSize = strlen(s);
-	int tSize = strlen(t);
-
-	if (s == NULL || t == NULL || sSize != tSize)
+	if (head == NULL)
 	{
-		return false;
+		return NULL; 
+	}
+	else if (head->next == NULL)
+	{
+		return head; 
 	}
 
-	char mark[127] = { 0 };
+	struct ListNode* curN = head; 
+	struct ListNode* nextN = curN->next; 
+	curN->next = NULL; 
 
-	for (int i = 0; i < sSize; i++)
+	while (nextN != NULL)
 	{
-		if (mark[s[i]] == 0)
-		{
-			for (int j = 32; j < 126; j++)
-			{
-				if (t[i] == mark[j])
-				{
-					return false;
-				}
-			}
-			mark[s[i]] = t[i];
-		}
-		else if (mark[s[i]] != t[i])
-		{
-			return false;
-		}
-
+		struct ListNode* tmpN = nextN->next;
+		nextN->next = curN; 
+		curN = nextN;
+		nextN = tmpN; 
 	}
-	return true;
+
+	return curN; 
 }
 
 int main()
 {
-	bool res = isIsomorphic("paper", "title"); 
 
-	printf("%d", res); 
 	return 0; 
 }
