@@ -4,48 +4,50 @@
 #include <math.h>
 #include <stdint.h>
 
-struct ListNode {
-    int val;
-    struct ListNode *next;
-};
-
-struct ListNode* removeElements(struct ListNode* head, int val)
+typedef enum
 {
-	if (head == NULL)
+	false, 
+	true
+} bool;
+
+bool isIsomorphic(char* s, char* t)
+{
+	int sSize = strlen(s);
+	int tSize = strlen(t);
+
+	if (s == NULL || t == NULL || sSize != tSize)
 	{
-		return NULL;
+		return false;
 	}
 
-	while (head->val == val)
-	{
-		head = head->next;
-		if (head == NULL)
-		{
-			return NULL;
-		}
-	}
-	struct ListNode* curN = head;
-	struct ListNode* nextN = head->next;
+	char mark[127] = { 0 };
 
-	while (nextN != NULL)
+	for (int i = 0; i < sSize; i++)
 	{
-		if (nextN->val != val)
+		if (mark[s[i]] == 0)
 		{
-			curN->next = nextN;
-			curN = nextN;
-			nextN = curN->next;
+			for (int j = 32; j < 126; j++)
+			{
+				if (t[i] == mark[j])
+				{
+					return false;
+				}
+			}
+			mark[s[i]] = t[i];
 		}
-		else
+		else if (mark[s[i]] != t[i])
 		{
-			nextN = nextN->next;
+			return false;
 		}
+
 	}
-	curN->next = NULL;
-	return head;
+	return true;
 }
 
 int main()
 {
+	bool res = isIsomorphic("paper", "title"); 
 
+	printf("%d", res); 
 	return 0; 
 }
